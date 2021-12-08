@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="5dp"
+        app:strokeWidth="2dp"
+         android:layout_margin="10dp"
+        app:cardElevation="10dp"
+        android:id="@+id/cV_locationDetailsCard"
+        android:backgroundTint="@color/white">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/white"
+            android:padding="10dp"
+            android:layout_margin="20dp"
+            android:layout_height="match_parent">
+
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:paddingRight="3dp"
+                app:srcCompat="@drawable/ic_round_add_location_24"
+                tools:ignore="MissingConstraints,RtlHardcoded,RtlSymmetry" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tV_locationName"
+                android:textColor="#000"
+                android:padding="5dp"
+                android:layout_toEndOf="@+id/iv_location"
+                android:textSize="15sp"
+
+                tools:ignore="MissingConstraints,RtlSymmetry" />
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:padding="5dp"
+                android:textColor="#fff"
+                android:id="@+id/tV_LocationPrice"
+               android:layout_below="@+id/tV_locationName"
+                android:textSize="28sp"
+                tools:ignore="MissingConstraints" />
+
+
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fB_delete_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tV_locationName"
+                android:layout_alignParentEnd="true"
+
+                app:backgroundTint="@color/splash_background_color"
+                app:srcCompat="@drawable/ic_baseline_delete_24"
+                android:contentDescription="TODO"
+                tools:ignore="MissingConstraints" />
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+

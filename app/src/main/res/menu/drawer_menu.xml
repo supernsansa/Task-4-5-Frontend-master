@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view" >
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_Profile"
+            android:iconTint="@color/splash_circle_color"
+            android:icon="@drawable/ic_person"
+
+            android:title="Profile" />
+        <item
+            android:id="@+id/nav_showMap"
+            android:icon="@android:drawable/ic_menu_week"
+            android:title="Show Map" />
+        <item
+            android:id="@+id/nav_locations"
+            android:icon="@drawable/ic_round_add_location_24"
+            android:title="Locations" />
+        <item
+            android:id="@+id/nav_logOut"
+            android:icon="@android:drawable/ic_menu_close_clear_cancel"
+            android:title="Logout" />
+
+    </group>
+
+<!--    <item android:title="Logout">-->
+<!--        <menu>-->
+
+<!--            <item-->
+<!--                android:id="@+id/nav_send"-->
+<!--                android:icon="@android:drawable/ic_menu_close_clear_cancel"-->
+<!--                android:title="Logout" />-->
+<!--        </menu>-->
+<!--    </item>-->
+
+</menu>

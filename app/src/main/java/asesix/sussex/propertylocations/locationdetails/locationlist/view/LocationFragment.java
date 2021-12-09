@@ -27,6 +27,7 @@ import asesix.sussex.R;
 import asesix.sussex.common.util.AppConstants.ApiConstants;
 import asesix.sussex.common.util.sharedprefernce.CustomSharedPreferences;
 import asesix.sussex.network.RetrofitAPI;
+import asesix.sussex.propertylocations.MapsActivity;
 import asesix.sussex.propertylocations.locationdetails.locationlist.model.FavouriteLocationPOJO;
 import asesix.sussex.userauthentication.login.view.LogInActivity;
 import retrofit2.Call;
@@ -50,30 +51,40 @@ public class LocationFragment  extends Fragment {
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.favouritelocation_list_activity, container, false);
-
+        getActivity();
 
         recyclerView = (RecyclerView)view.findViewById(R.id.rV_favourite_location_list);
-      if(ApiConstants.isInternetConnected(getContext())) {
-          getLocationList();
-      }
-      else
-      {
-          ApiConstants.showToast(getContext(),ApiConstants.noNetworkAvailable);
-      }
+
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         tvNoData=(TextView)view.findViewById(R.id.tv_noDataAvailable);
-        loadingPB = view.findViewById(R.id.idLoadingPB);
+        loadingPB =(ProgressBar) view.findViewById(R.id.idLoadingPB);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         favouriteLocationsItemAdapter = new FavouriteLocationsItemAdapter(favouriteLocationsList,getContext());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        favouriteLocationsList = new ArrayList<>();
+        tvNoData.setVisibility(View.GONE);
+
         if(favouriteLocationsList.size()>0) {
+
             favouriteLocationsList.remove(favouriteLocationsList.size() - 1);
             favouriteLocationsItemAdapter.notifyDataSetChanged();
+
             Toast.makeText(getContext(), String.valueOf(favouriteLocationsList.size()), Toast.LENGTH_LONG).show();
+        }
+
+
+
+
+        if(ApiConstants.isInternetConnected(getContext())) {
+            getLocationList();
+        }
+        else
+        {
+            ApiConstants.showToast(getContext(),ApiConstants.noNetworkAvailable);
         }
         // if(favouriteLocationsItemAdapter!=null) {
 
@@ -89,7 +100,6 @@ public class LocationFragment  extends Fragment {
 
 
     public  void getLocationList() {
-        favouriteLocationsList = new ArrayList<>();
         customSharedPreferences=new CustomSharedPreferences(getContext());
 
         // below line is for displaying our progress bar.
@@ -125,21 +135,29 @@ public class LocationFragment  extends Fragment {
 
                 if(response.code()==200) {
 
-                    if(response.body()==null)
-                    {
-                        tvNoData.setVisibility(View.VISIBLE);
-                    }
 
                     for (int i = 0; i < Objects.requireNonNull(response.body()).size(); i++) {
-                        FavouriteLocationPOJO favouriteLocationPOJO = new FavouriteLocationPOJO(response.body().get(i).getId(),
+                        FavouriteLocationPOJO favouriteLocationPOJO = new FavouriteLocationPOJO(response.body().get(i).getUserId(),
 
-                                response.body().get(i).getLocation_name(), response.body().get(i).getLatitude(), response.body().get(i).getLongitude());
+                                response.body().get(i).getLocation_name(), response.body().get(i).getPostcode(), response.body().get(i).getAveragePrice());
 
 
                         favouriteLocationsList.add(favouriteLocationPOJO);
 
                     }
 
+                    if(favouriteLocationsList.size()==0)
+                    {
+
+                        Log.e("inside" ,"size 0");
+                        tvNoData.setVisibility(View.VISIBLE);
+
+                    }
+                    else
+                    {
+                        tvNoData.setVisibility(View.GONE);
+
+                    }
 
                     favouriteLocationsItemAdapter = new FavouriteLocationsItemAdapter(
                             favouriteLocationsList, getContext());

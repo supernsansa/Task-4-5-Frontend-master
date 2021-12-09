@@ -62,12 +62,15 @@ public class FavouriteLocationsItemAdapter extends RecyclerView.Adapter<Favourit
        // Log.e("DTAAA", myListData.getLocation_name());
        // notifyItemRemoved( position);
 
-        holder.tV_LocationName.setText(String.valueOf(favouriteLocationPOJO.getLongitude()));
+        holder.tV_LocationName.setText(String.valueOf(favouriteLocationPOJO.getAveragePrice()));
+        holder.tV_avgPrice.setText(String.valueOf(favouriteLocationPOJO.getAveragePrice()));
+
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), MapsActivity.class);
             Log.e("clicked","clike not moving");
-            intent.putExtra("lat", String.valueOf(favouriteLocationPOJO.getLatitude()));
-            intent.putExtra("long", String.valueOf(favouriteLocationPOJO.getLongitude()));
+            intent.putExtra("postcode", String.valueOf(favouriteLocationPOJO.getPostcode()));
+            intent.putExtra("avgPrice", String.valueOf(favouriteLocationPOJO.getPostcode()));
+
             v.getContext().startActivity(intent);
         });
 
@@ -77,7 +80,7 @@ public class FavouriteLocationsItemAdapter extends RecyclerView.Adapter<Favourit
             @Override
             public void onClick(View v) {
                // listener.onClick(v,favouriteLocationPOJO,position);
-                Log.e("favouriteLocationPOJO", favouriteLocationPOJO.getId());
+                Log.e("favouriteLocationPOJO", favouriteLocationPOJO.getUserId());
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(v.getContext());
                 LayoutInflater inflater = ((Activity) v.getContext()).getLayoutInflater();
                 View alertView = inflater.inflate(R.layout.delete_data_dialog, null);
@@ -88,11 +91,19 @@ public class FavouriteLocationsItemAdapter extends RecyclerView.Adapter<Favourit
                 final AlertDialog show = alertDialog.show();
 
                 Button alertButton = (Button) alertView.findViewById(R.id.bt_delete_location);
+                Button alertCancelButton = (Button) alertView.findViewById(R.id.bt_cancel_location);
+
+                alertCancelButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        show.dismiss();
+                    }
+                });
                 alertButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if(ApiConstants.isInternetConnected(mContext)) {
-                            postData(favouriteLocationPOJO.getId(), position);
+                            postData(favouriteLocationPOJO.getUserId(), position);
                             updateData(position, favouriteLocationPOJOList);
                             // notifyItemRemoved( position);
                             notifyDataSetChanged();
@@ -127,6 +138,8 @@ public class FavouriteLocationsItemAdapter extends RecyclerView.Adapter<Favourit
     }
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tV_LocationName;
+        public TextView tV_avgPrice;
+
         public FloatingActionButton fB_DeleteLocation;
         public CardView mVLocationDetailsCard;
 
@@ -136,6 +149,7 @@ public class FavouriteLocationsItemAdapter extends RecyclerView.Adapter<Favourit
             Log.e("itemView", "OK");
 
             this.tV_LocationName = (TextView) itemView.findViewById(R.id.tV_locationName);
+            this.tV_avgPrice=(TextView)itemView.findViewById(R.id.tV_LocationPrice);
             this.fB_DeleteLocation=(FloatingActionButton)itemView.findViewById(R.id.fB_delete_location);
             this.mVLocationDetailsCard=(CardView)itemView.findViewById(R.id.cV_locationDetailsCard);
         }

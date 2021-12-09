@@ -14,11 +14,11 @@ import java.util.regex.Pattern;
 
 public class ApiConstants {
 
-    public static final String BASE_URL = "http://3.9.171.61:8080/";
-    //static const String BASE_URL="https://covid-19.dataflowkit.com/";
+    //public static final String BASE_URL = "http://3.9.171.61:8080/";
+   public static final String BASE_URL="http://10.0.2.2:8045/";
     static  String SUB_URL="/address";
     public static final String  Sign_Up = "/auth/signup";
-   public  static  final String Sign_In= "/auth/signin";
+   public  static  final String Sign_In= "auth/signin";
     public static final String GET_User_LocationById="/location/findByUserId/{id}";
     public static final String DELETE_User_LocationById="/location/delete/{id}";
     public   static final  String Add_User_Location="/location/add";

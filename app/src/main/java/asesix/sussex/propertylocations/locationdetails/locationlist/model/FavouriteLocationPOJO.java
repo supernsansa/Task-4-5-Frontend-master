@@ -1,18 +1,23 @@
 package asesix.sussex.propertylocations.locationdetails.locationlist.model;
 
 public class FavouriteLocationPOJO {
-    String id;
+    String userId;
     String location_name;
-    double longitude;
-    double latitude;
-    String price;
-
-    public String getId() {
-        return id;
+    String postcode;
+    public FavouriteLocationPOJO(String userId, String location_name, String postcode, double averagePrice)
+    {
+         this.userId=userId;
+         this.location_name=location_name;
+         this.postcode=postcode;
+         this.averagePrice=averagePrice;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getLocation_name() {
@@ -23,40 +28,23 @@ public class FavouriteLocationPOJO {
         this.location_name = location_name;
     }
 
-    public double getLongitude() {
-        return longitude;
+    public String getPostcode() {
+        return postcode;
     }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
     }
 
-    public double getLatitude() {
-        return latitude;
+    public Double getAveragePrice() {
+        return averagePrice;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
+    public void setAveragePrice(Double averagePrice) {
+        this.averagePrice = averagePrice;
     }
 
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-    public  FavouriteLocationPOJO(String strId, String strLocationName, double strLatitude, double strLongitude)
-    {
-        this.id=strId;
-        this.location_name=strLocationName;
-        this.latitude=strLatitude;
-        this.longitude=strLongitude;
-
-    }
-
-
+    private Double averagePrice;
 
 
 

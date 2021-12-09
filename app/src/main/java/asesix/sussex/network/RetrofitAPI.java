@@ -3,7 +3,6 @@ package asesix.sussex.network;
 import java.util.List;
 
 import asesix.sussex.propertylocations.locationdetails.locationlist.model.FavouriteLocationPOJO;
-import asesix.sussex.propertylocations.locationdetails.savelocation.model.SaveLocationPoJo;
 import asesix.sussex.userauthentication.login.model.LoginPoJo;
 import asesix.sussex.userauthentication.registration.model.RegistrationPoJo;
 import okhttp3.ResponseBody;
@@ -30,7 +29,7 @@ public interface RetrofitAPI {
     Call<LoginPoJo> createLogInPost(@Body LoginPoJo loginPoJo);
 
     @POST(ApiConstants.Add_User_Location)
-    Call<SaveLocationPoJo> addUserLocation(@Header("Authorization") String auth, @Body() SaveLocationPoJo saveLocationPoJo);
+    Call<FavouriteLocationPOJO> addUserLocation(@Header("Authorization") String auth, @Body() FavouriteLocationPOJO saveLocationPoJo);
 
 
 

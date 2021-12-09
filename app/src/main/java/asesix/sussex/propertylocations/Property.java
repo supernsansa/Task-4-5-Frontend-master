@@ -16,7 +16,7 @@ public class Property implements ClusterItem {
     private LatLng position;
     private String title;
     private String snippet;
-    private int soldPrice;
+    private double soldPrice;
 
     public Property(LatLng position, String title, String snippet, int soldPrice) {
         this.position = position;
@@ -43,6 +43,6 @@ public class Property implements ClusterItem {
         return snippet;
     }
 
-    public int getSoldPrice() { return soldPrice; }
+    public double getSoldPrice() { return soldPrice; }
 
 }

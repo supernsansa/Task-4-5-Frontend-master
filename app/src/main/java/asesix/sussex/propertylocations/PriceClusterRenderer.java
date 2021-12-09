@@ -55,7 +55,7 @@ public class PriceClusterRenderer extends DefaultClusterRenderer<Property> {
         Property[] properties = cluster.getItems().toArray(new Property[0]);
 
         for(Property p : properties) {
-            averagePrice = averagePrice + p.getSoldPrice();
+            averagePrice = (int) (averagePrice + p.getSoldPrice());
         }
         averagePrice = averagePrice/(cluster.getSize());
 

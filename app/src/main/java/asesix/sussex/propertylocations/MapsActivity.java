@@ -1,6 +1,9 @@
 package asesix.sussex.propertylocations;
 
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +13,8 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,7 +27,8 @@ import asesix.sussex.R;
 import asesix.sussex.common.util.sharedprefernce.CustomSharedPreferences;
 import asesix.sussex.databinding.ActivityMapsBinding;
 import asesix.sussex.network.RetrofitAPI;
-import asesix.sussex.propertylocations.locationdetails.savelocation.model.SaveLocationPoJo;
+import asesix.sussex.propertylocations.locationdetails.locationlist.model.FavouriteLocationPOJO;
+import asesix.sussex.propertylocations.locationdetails.locationlist.view.LocationFragment;
 import asesix.sussex.common.util.AppConstants.ApiConstants;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -69,16 +75,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private View starButton;
     Double lat,lng;
     CustomSharedPreferences customSharedPreferences;
+    FrameLayout frameLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        Intent intent = getIntent();
-
-
-
+        frameLayout =(FrameLayout)findViewById(R.id.frameLayout);
 
         starButton = findViewById(R.id.starButton);
         starButton.setVisibility(View.GONE);
@@ -116,13 +120,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1f
         };
         if(getIntent().getExtras() !=null) {
-            lat = Double.valueOf(getIntent().getStringExtra("lat"));
-            lng = Double.valueOf(getIntent().getStringExtra("long"));
+            lat = Double.valueOf(getIntent().getStringExtra("postcode"));
+            String postCode = getIntent().getStringExtra("postcode");
+            double avgPrice=Double.parseDouble(getIntent().getStringExtra("avgPrice"));
+
+            final Geocoder geocoder = new Geocoder(this);
+            try {
+                List<Address> addresses = geocoder.getFromLocationName(postCode, 1);
+                if (addresses != null && !addresses.isEmpty()) {
+                    Address address = addresses.get(0);
+                    // Use the address as needed
+                    String coordinates = String.valueOf(address.getLatitude()) + " " + String.valueOf(address.getLongitude());
+                    clusterManager.addItem(new Property(new LatLng(address.getLatitude(),address.getLongitude()), coordinates, "", (int) avgPrice));
 
 
-            String coordinates = String.valueOf(lat) + " " + String.valueOf(lng);
+                } else {
+                }
+            } catch (IOException e) {
+                // handle exception
+            }
 
-            clusterManager.addItem(new Property(new LatLng(lng,lng), coordinates, "intensityStr", 100));
             ArrayList<WeightedLatLng> locations = generateLocations();
             LatLng newLocation = new LatLng( lat, lng);
             locations.add(new WeightedLatLng(newLocation, 11));
@@ -275,32 +292,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void starAction(View view) {
         View starButton = findViewById(R.id.starButton);
         starButton.setOnClickListener(v -> {
-            Geocoder geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
+            final Geocoder geocoder = new Geocoder(this);
+            String zipCode="";
+            double avgPrice=0.0;
+            String locality="";
+
+            List<Address> addresses=new ArrayList<>(); ;;
             try {
-                List<Address> addresses = geocoder.getFromLocation(selectedClusterItem.getPosition().latitude,
-                        selectedClusterItem.getPosition().latitude, 1);
-                Address obj = addresses.get(0);
-                String add = obj.getAddressLine(0);
-                add = add + "\n" + obj.getCountryName();
-                add = add + "\n" + obj.getCountryCode();
-                add = add + "\n" + obj.getAdminArea();
-                add = add + "\n" + obj.getPostalCode();
-                add = add + "\n" + obj.getSubAdminArea();
-                add = add + "\n" + obj.getLocality();
-                add = add + "\n" + obj.getSubThoroughfare();
+               addresses = geocoder.getFromLocationName(zipCode, 1);
+                if (addresses != null && !addresses.isEmpty()) {
+                    Address address = addresses.get(0);
+                    locality=address.getLocality();
+                    // Use the address as needed
 
-                Log.e("IGA", "Address" +selectedClusterItem.getPosition().latitude );
-                // Toast.makeText(this, "Address=>" + add,
-                // Toast.LENGTH_SHORT).show();
-                saveLocation("61aa13b743c47e5b3173a716",selectedClusterItem.getPosition().latitude,selectedClusterItem.getPosition().longitude,obj.getLocality(),"Red");
-
-
-                // TennisAppActivity.showDialog(add);
+                }
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                //Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                // handle exception
             }
+            Log.e("IGA", "Address" +customSharedPreferences.getStringValue("userId") );
+            // Toast.makeText(this, "Address=>" + add,
+            // Toast.LENGTH_SHORT).show();
+            saveLocation(customSharedPreferences.getStringValue("userId"),locality,
+                   zipCode, avgPrice);
+
+            // TennisAppActivity.showDialog(add);
         });
         //TODO Change icon to bin or X and change colour to red
         //TODO Save location on server
@@ -318,7 +333,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-    public  void saveLocation(String userId, double dbrLat, Double dbrLong, String strLocationName,String colorName) {
+    public  void saveLocation(String userId, String locationName,String postCode, Double avgPrice) {
 
         // below line is for displaying our progress bar.
         //loadingPB.setVisibility(View.VISIBLE);
@@ -336,22 +351,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
 
         // passing data from our text fields to our modal class.
-        SaveLocationPoJo saveLocationPoJo = new SaveLocationPoJo(userId,dbrLat,dbrLong,strLocationName,"red");
+        FavouriteLocationPOJO saveLocationPoJo = new FavouriteLocationPOJO(userId,locationName,postCode,avgPrice);
 
         // calling a method to create a post and passing our modal class.
-        Call<SaveLocationPoJo> call = retrofitAPI.addUserLocation("Bearer " + customSharedPreferences.getStringValue("token") ,saveLocationPoJo);
+        Call<FavouriteLocationPOJO> call = retrofitAPI.addUserLocation("Bearer " + customSharedPreferences.getStringValue("token") ,saveLocationPoJo);
 
         // on below line we are executing our method.
-        call.enqueue(new Callback<SaveLocationPoJo>() {
+        call.enqueue(new Callback<FavouriteLocationPOJO>() {
             @Override
-            public void onResponse(@NotNull Call<SaveLocationPoJo> call, @NotNull Response<SaveLocationPoJo> response) {
-                
-                SaveLocationPoJo responseFromAPI = response.body();
+            public void onResponse(@NotNull Call<FavouriteLocationPOJO> call, @NotNull Response<FavouriteLocationPOJO> response) {
+
+                FavouriteLocationPOJO responseFromAPI = response.body();
 
                 // on below line we are getting our data from modal class and adding it to our string.
 //                assert responseFromAPI != null;
-               
 
+
+                if(response.code()==200) {
+
+                    Log.e("response code" , String.valueOf(response.code()));
+
+                    FragmentManager fm = getSupportFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    ft.replace(R.id.frameLayout, new LocationFragment(), "LocationFragment").commit();
+
+
+
+                }
 //                Intent login = new Intent(MapsActivity.this, FavouriteLocationsListActivity.class);
 //                startActivity(login);
 
@@ -362,7 +388,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
 
             @Override
-            public void onFailure(@NotNull Call<SaveLocationPoJo> call, Throwable t) {
+            public void onFailure(@NotNull Call<FavouriteLocationPOJO> call, Throwable t) {
                 // setting text to our text view when
                 // we get error response from API.
                 //responseTV.setText("Error found is : " + t.getMessage());

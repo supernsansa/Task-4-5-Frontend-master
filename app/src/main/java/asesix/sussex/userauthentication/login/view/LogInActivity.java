@@ -197,6 +197,7 @@ public class LogInActivity extends AppCompatActivity  {
 
         // below line is for displaying our progress bar.
         loadingPB.setVisibility(View.VISIBLE);
+        Log.e("response code" , "String.valueOf(response.code())");
 
         // on below line we are creating a retrofit
         // builder and passing our base url
@@ -208,13 +209,18 @@ public class LogInActivity extends AppCompatActivity  {
                 // at last we are building our retrofit builder.
                 .build();
         // below line is to create an instance for our retrofit api class.
+
+        Log.e("response code" , String.valueOf(retrofit.baseUrl()));
+
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+        Log.e("response code" , String.valueOf(retrofit));
 
         // passing data from our text fields to our modal class.
         LoginPoJo loginPoJo = new LoginPoJo(strEmailId,strPassword,"","");
 
         // calling a method to create a post and passing our modal class.
         Call<LoginPoJo> call = retrofitAPI.createLogInPost(loginPoJo);
+        Log.e("response code" , String.valueOf(call.request()));
 
         // on below line we are executing our method.
         call.enqueue(new Callback<LoginPoJo>() {
@@ -224,6 +230,8 @@ public class LogInActivity extends AppCompatActivity  {
                 // Toast.makeText(RegistrationController.this, "Data added to API", Toast.LENGTH_SHORT).show();
                 // below line is for hiding our progress bar.
                 loadingPB.setVisibility(View.GONE);
+
+                Log.e("response code" , String.valueOf(response.code()));
 
                 if(response.code()==200) {
                     customSharedPreferences.setIsLogin(true);
@@ -249,6 +257,7 @@ public class LogInActivity extends AppCompatActivity  {
                 // we get error response from API.
                 //responseTV.setText("Error found is : " + t.getMessage());
                 ApiConstants.showToast(LogInActivity.this,ApiConstants.serverError);
+                Log.e("fail code" , String.valueOf(t.getMessage()));
 
                 loadingPB.setVisibility(View.GONE);
 

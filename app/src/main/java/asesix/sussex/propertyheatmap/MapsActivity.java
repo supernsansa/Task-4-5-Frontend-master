@@ -1,13 +1,16 @@
 package asesix.sussex.propertyheatmap;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -152,25 +155,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         london = new LatLng(51.5072, 0.1276);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(london,12.0f));
 
-        /**
-         //Load KML with postal area outlines
-         try {
-         KmlLayer postcode_areas = new KmlLayer(mMap, R.raw.postcode_area_layer_polys, this);
-         postcode_areas.addLayerToMap();
-         // Set a listener for geometry clicked events.
-         postcode_areas.setOnFeatureClickListener(new KmlLayer.OnFeatureClickListener() {
-        @Override
-        public void onFeatureClick(Feature feature) {
-        Log.i("KML", "Feature clicked: " + feature.getProperty("name"));
-        System.out.println(feature.getProperty("name"));
+        //Enable user location tracking
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            System.err.println("Location services not enabled");
         }
-        });
-         } catch (XmlPullParserException e) {
-         e.printStackTrace();
-         } catch (IOException e) {
-         e.printStackTrace();
-         }*/
-
+        mMap.setMyLocationEnabled(true);
 
 
         if(getIntent().getExtras() !=null) {
@@ -208,20 +197,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onMapClick(LatLng point) {
                 System.out.println("Map clicked [" + point.latitude + " / " + point.longitude + "]");
                 CameraPosition cameraPosition = mMap.getCameraPosition();
-                //Do your stuff with LatLng here
-                //String result = "Empty";
                 if(cameraPosition.zoom > 16) {
-                    //postcodeDBAccess.open();
-                    //result = postcodeDBAccess.getPostcode(point.latitude, point.longitude);
                     getLocationRequest(point.latitude,point.longitude,false);
                 }
                 else {
-                    //outcodeDBAccess.open();
-                    //result = outcodeDBAccess.getOutcode(point.latitude, point.longitude);
                     getLocationRequest(point.latitude, point.longitude,true);
                 }
-                //System.out.println(result);
-                //getIndivDataRequest(result);
             }
         });
     }
@@ -284,7 +265,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //Get arraylist of postcodes strings
         for (Postcode p : postcodes) {
-            //LatLng pos = new LatLng(p.getLatitude(),p.getLongitude());
             codeStrings.add(p.getCode());
         }
 
@@ -297,7 +277,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //Send request for prices
         AndroidNetworking.post("http://10.0.2.2:8084/property")
-                //.addHeaders("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdXBlcm5zYW5zYUBnbWFpbC5jb20iLCJleHAiOjE3MjUzNzMyNDYsImlhdCI6MTYzODk3MzI0Nn0.K7jgQ1_ESzqw6bMJUCUHi6y8Ee6L_3VAx7XoD4W4N3Z-0r9iR4LxrozDXMT8s8NobOlU7mIa_6xVShq-RnmeTA")
                 .addJSONObjectBody(requestBody)
                 .setPriority(Priority.HIGH)
 

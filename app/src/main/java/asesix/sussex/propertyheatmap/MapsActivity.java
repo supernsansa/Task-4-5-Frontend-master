@@ -66,16 +66,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * TODO: Register/Sign-In activities
- * TODO: Search for post code
- * TODO: Track user location
- * TODO: Attribution for backend APIs
- * TODO: Save/un-save locations
- * TODO: Location list
- * TODO: Change marker icon to text with post code or avg price
- */
-
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
 
@@ -159,7 +149,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             System.err.println("Location services not enabled");
         }
-        mMap.setMyLocationEnabled(true);
+        else {
+            mMap.setMyLocationEnabled(true);
+        }
 
 
         if(getIntent().getExtras() !=null) {
@@ -276,7 +268,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         //Send request for prices
-        AndroidNetworking.post("http://10.0.2.2:8084/property")
+        AndroidNetworking.post(ApiConstants.BASE_URL + "/property")
                 .addJSONObjectBody(requestBody)
                 .setPriority(Priority.HIGH)
 
@@ -326,7 +318,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     //This method retrieves the sales price and number of properties for a given location and displays it in an alert dialog
     public void getIndivDataRequest(String code) {
         //Send request for prices
-        AndroidNetworking.get(("http://10.0.2.2:8084/property/" + code))
+        AndroidNetworking.get((ApiConstants.BASE_URL + "/property/" + code))
                 .setPriority(Priority.HIGH)
                 .build()
                 .setDownloadProgressListener(new DownloadProgressListener() {

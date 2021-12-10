@@ -15,7 +15,8 @@ import java.util.regex.Pattern;
 public class ApiConstants {
 
     //public static final String BASE_URL = "http://3.9.171.61:8080/";
-   public static final String BASE_URL="http://10.0.2.2:8045/";
+    //public static final String BASE_URL="http://192.168.1.173:8080";
+    public static final String BASE_URL="http://18.135.15.69:8080";
     static  String SUB_URL="/address";
 
     /**** user APIs******/
@@ -41,14 +42,6 @@ public class ApiConstants {
 
     public static final String serverError="Something went wrong!!!!";
     public static final String noNetworkAvailable="Please check your internet connection!!";
-
-
-//    public static boolean isNetworkAvailable(Context mContext) {
-//        ConnectivityManager connectivityManager
-//                = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-//        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-//        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-//    }
 
     public static boolean isValidEmail(String RequestedEmail) {
 

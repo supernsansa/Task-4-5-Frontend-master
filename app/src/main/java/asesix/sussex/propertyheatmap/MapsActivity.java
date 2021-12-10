@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 
 import com.androidnetworking.AndroidNetworking;
@@ -79,6 +80,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private OutcodeDBAccess outcodeDBAccess;
     private PostcodeDBAccess postcodeDBAccess;
     private FloatingActionButton fbSave;
+    private TextView crimeReport;
     //Coordinates of viewable area
     private double northeast_lat;
     private double northeast_long;
@@ -107,6 +109,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        crimeReport =(TextView)findViewById(R.id.crimeReport);
         outcodeDBAccess = OutcodeDBAccess.getInstance((getApplicationContext()));
         postcodeDBAccess = PostcodeDBAccess.getInstance(getApplicationContext());
         customSharedPreferences=new CustomSharedPreferences(MapsActivity.this);
@@ -176,6 +179,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     heatmapGen(false);
                 } else {
                     System.err.println("Use outcodes here");
+                    crimeReport.setVisibility(View.INVISIBLE);
                     heatmapGen(true);
                 }
 
@@ -233,6 +237,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         //If we're looking for postcodes
         else {
+            getCrimes();
             postcodeDBAccess.open();
             codes = postcodeDBAccess.getVisiblePostcodes(northeast_lat,northeast_long,southwest_lat,southwest_long);
         }
@@ -417,7 +422,48 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 });
     }
 
+    //This method gets the crimes committed for a set of coordinates (Street-Level Only)
+    public void getCrimes() {
+        JSONObject requestBody = new JSONObject();
 
+        String[] bounds = new String[4];
+        bounds[0] = String.valueOf(northeast_lat) + "," + String.valueOf(northeast_long);
+        bounds[1] = String.valueOf(northeast_lat) + "," + String.valueOf(southwest_long);
+        bounds[2] = String.valueOf(southwest_lat) + "," + String.valueOf(southwest_long);
+        bounds[3] = String.valueOf(southwest_lat) + "," + String.valueOf(northeast_long);
+
+        String poly = bounds[0] + ":" + bounds[1] + ":" + bounds[2] + ":" + bounds[3];
+
+        try {
+            requestBody.put("Longlats",new JSONArray(bounds));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        //Send request for crimes
+        AndroidNetworking.get("https://data.police.uk/api/crimes-street/all-crime?poly=" + poly)
+                //.addJSONObjectBody(requestBody)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getAsJSONArray(new JSONArrayRequestListener() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        //Read JSON response and set variable accordingly
+                        String numberOfCrimes = String.valueOf(response.length());
+                        System.out.println("Crimes Reported: " + numberOfCrimes);
+                        crimeReport.setText("Crimes Reported: " + numberOfCrimes);
+                        crimeReport.setVisibility(View.VISIBLE);
+                    }
+                    @Override
+                    public void onError(ANError error) {
+                        // handle error
+                        error.printStackTrace();
+                        System.err.println(error.getErrorCode());
+                        System.err.println(error.getErrorBody());
+                        System.err.println(error.getErrorDetail());
+                    }
+                });
+    }
 
 
 

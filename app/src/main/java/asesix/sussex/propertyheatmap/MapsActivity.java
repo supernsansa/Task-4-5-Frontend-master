@@ -424,7 +424,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     //This method gets the crimes committed for a set of coordinates (Street-Level Only)
     public void getCrimes() {
-        JSONObject requestBody = new JSONObject();
 
         String[] bounds = new String[4];
         bounds[0] = String.valueOf(northeast_lat) + "," + String.valueOf(northeast_long);
@@ -434,15 +433,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         String poly = bounds[0] + ":" + bounds[1] + ":" + bounds[2] + ":" + bounds[3];
 
-        try {
-            requestBody.put("Longlats",new JSONArray(bounds));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
         //Send request for crimes
         AndroidNetworking.get("https://data.police.uk/api/crimes-street/all-crime?poly=" + poly)
-                //.addJSONObjectBody(requestBody)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getAsJSONArray(new JSONArrayRequestListener() {

@@ -66,7 +66,7 @@ public class FavouriteLocationsItemAdapter extends RecyclerView.Adapter<Favourit
        // Log.e("DTAAA", myListData.getLocation_name());
        // notifyItemRemoved( position);
 
-        holder.tV_LocationName.setText(String.valueOf(favouriteLocationPOJO.getLocation_name()));
+        holder.tV_LocationName.setText(String.valueOf(favouriteLocationPOJO.getPostcode()));
         Log.e("avg size" , String.valueOf(averagePriceDates.size()));
 
         for(int i=0;i<averagePriceDates.size();i++) {

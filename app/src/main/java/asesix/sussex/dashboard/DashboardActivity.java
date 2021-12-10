@@ -26,6 +26,7 @@ import asesix.sussex.propertyheatmap.MapsActivity;
 import asesix.sussex.propertylocations.locationdetails.locationlist.view.LocationListActivity;
 import asesix.sussex.user.passwordupdate.view.ChangePasswordActivity;
 import asesix.sussex.user.profile.view.UserProfileActivity;
+import asesix.sussex.user.seetings.SettingsActivity;
 import asesix.sussex.userauthentication.login.model.LoginPoJo;
 import asesix.sussex.userauthentication.login.view.LogInActivity;
 import asesix.sussex.userauthentication.registration.view.RegistrationActivity;
@@ -38,7 +39,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class DashboardActivity extends AppCompatActivity {
 
 
-    CardView cvShowMap,cvSowLocation,cvShowProfile,cvChangePassword,cvLogout;
+    CardView cvShowMap,cvSowLocation,cvSettings;
 
     CustomSharedPreferences customSharedPreferences;
 
@@ -72,38 +73,17 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
-
-        cvChangePassword.setOnClickListener(new View.OnClickListener() {
+        cvSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent showMapintent=new Intent(DashboardActivity.this, ChangePasswordActivity.class);
+                Intent showMapintent=new Intent(DashboardActivity.this, SettingsActivity.class);
                 startActivity(showMapintent);
-                //finish();
-
+                finish();
             }
         });
 
-        cvShowProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent showMapintent = new Intent(DashboardActivity.this, UserProfileActivity.class);
-                startActivity(showMapintent);
-            }
-            //finish();
-        });
 
 
-        cvLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent logOutIntent = new Intent(DashboardActivity.this, LogInActivity.class);
-                logOutIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                logOutIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                customSharedPreferences.setIsLogin(false);
-                startActivity(logOutIntent);
-            }
-        });
 
     }
 
@@ -113,10 +93,9 @@ public class DashboardActivity extends AppCompatActivity {
 
     void initView() {
         cvShowMap=(CardView)findViewById(R.id.showMapCard);
-        cvChangePassword=(CardView)findViewById(R.id.showChangePasswordCard);
-        cvShowProfile=(CardView)findViewById(R.id.showUserProfileCard);
+
         cvSowLocation=(CardView)findViewById(R.id.showLocationsCard);
-        cvLogout=(CardView)findViewById(R.id.showLogoutCard);
+        cvSettings=(CardView)findViewById(R.id.showSettingsCard);
 
     }
 

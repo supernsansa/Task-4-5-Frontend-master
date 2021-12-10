@@ -43,6 +43,10 @@ public interface RetrofitAPI {
     Call<ChangePasswordPoJo> changePasswordPost(@Header("Authorization")String auth,@Body ChangePasswordPoJo changePasswordPoJo);
 
 
+    @DELETE(ApiConstants.DELETE_USER)
+    Call <ResponseBody> deleteUserAccount(@Header("Authorization") String auth, @Path("id") String id);
+
+
 
     @POST(ApiConstants.Add_User_Location)
     Call<FavouriteLocationPOJO> addUserLocation(@Header("Authorization") String auth, @Body() FavouriteLocationPOJO saveLocationPoJo);

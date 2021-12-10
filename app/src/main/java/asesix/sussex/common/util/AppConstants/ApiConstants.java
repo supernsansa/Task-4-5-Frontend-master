@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class ApiConstants {
 
     //public static final String BASE_URL = "http://3.9.171.61:8080/";
-   public static final String BASE_URL="http://10.0.2.2:8084/";
+   public static final String BASE_URL="http://10.0.2.2:8045/";
     static  String SUB_URL="/address";
 
     /**** user APIs******/

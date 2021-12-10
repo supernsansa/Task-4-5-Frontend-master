@@ -15,13 +15,26 @@ import java.util.regex.Pattern;
 public class ApiConstants {
 
     //public static final String BASE_URL = "http://3.9.171.61:8080/";
-   public static final String BASE_URL="http://10.0.2.2:8045/";
+   public static final String BASE_URL="http://10.0.2.2:8084/";
     static  String SUB_URL="/address";
+
+    /**** user APIs******/
     public static final String  Sign_Up = "/auth/signup";
    public  static  final String Sign_In= "auth/signin";
+    public   static final  String GET_USER="/auth/me";
+    public   static final  String UPDATE_PROFILE="/user/update";
+    public   static final  String CHANGE_PASSWORD="/auth/user/changepassword";
+    public  static final String DELETE_USER="/user/delete/{id}";
+
+     /******location APIs****/
     public static final String GET_User_LocationById="/location/findByUserId/{id}";
     public static final String DELETE_User_LocationById="/location/delete/{id}";
     public   static final  String Add_User_Location="/location/add";
+    public static final String GET_LocationById="/location/find/{id}";
+
+    public static final String UPDATE_LocationById="/location/update/{id}";
+
+
 
 
 
@@ -56,7 +69,7 @@ public class ApiConstants {
             public void run() {
                 toast.cancel();
             }
-        }, 2000);
+        }, 5000);
     }
 
     public static boolean isInternetConnected(Context getApplicationContext) {

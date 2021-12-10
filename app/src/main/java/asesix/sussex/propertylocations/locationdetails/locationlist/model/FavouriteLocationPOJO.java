@@ -1,10 +1,12 @@
 package asesix.sussex.propertylocations.locationdetails.locationlist.model;
 
+import java.util.ArrayList;
+
 public class FavouriteLocationPOJO {
     String userId;
     String location_name;
     String postcode;
-    public FavouriteLocationPOJO(String userId, String location_name, String postcode, double averagePrice)
+    public FavouriteLocationPOJO(String userId, String location_name, String postcode, String averagePrice)
     {
          this.userId=userId;
          this.location_name=location_name;
@@ -36,17 +38,20 @@ public class FavouriteLocationPOJO {
         this.postcode = postcode;
     }
 
-    public Double getAveragePrice() {
+    public String getAveragePrice() {
         return averagePrice;
     }
 
-    public void setAveragePrice(Double averagePrice) {
+    public void setAveragePrice(String averagePrice) {
         this.averagePrice = averagePrice;
     }
 
-    private Double averagePrice;
+    private String averagePrice;
+
+
 
 
 
 
 }
+

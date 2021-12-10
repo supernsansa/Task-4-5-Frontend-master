@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".propertylocations.MapsActivity">
+    tools:context=".propertyheatmap.MapsActivity">
 
     <fragment
         android:id="@+id/map"
@@ -18,24 +18,22 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         />
+<!--    <include-->
+<!--        layout="@layout/app_bar_main"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
+
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/starButton"
+        android:id="@+id/fB_save_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
         android:clickable="true"
-        android:src="@android:drawable/btn_star_big_on"
-        app:backgroundTint="#FDD835"
+        app:srcCompat="@android:drawable/ic_menu_directions"
+        app:backgroundTint="@color/splash_circle_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <include
-        layout="@layout/app_bar_main"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,13 +1,16 @@
 package asesix.sussex.propertylocations.locationdetails.locationlist.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import asesix.sussex.R;
 import asesix.sussex.common.util.sharedprefernce.CustomSharedPreferences;
 import asesix.sussex.network.RetrofitAPI;
-import asesix.sussex.propertylocations.MapsActivity;
+import asesix.sussex.propertyheatmap.MapsActivity;
+import asesix.sussex.propertylocations.locationdetails.locationlist.model.FavLocationResponsePoJo;
 import asesix.sussex.propertylocations.locationdetails.locationlist.model.FavouriteLocationPOJO;
 import asesix.sussex.common.util.AppConstants.ApiConstants;
+import asesix.sussex.propertylocations.locationdetails.locationlist.model.averagePriceDates;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,13 +37,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.jetbrains.annotations.NotNull;
 
 public class FavouriteLocationsItemAdapter extends RecyclerView.Adapter<FavouriteLocationsItemAdapter.ViewHolder>{
-    private List<FavouriteLocationPOJO> favouriteLocationPOJOList;
+    private List<FavLocationResponsePoJo> favouriteLocationPOJOList;
     ClickListener listener;
     CustomSharedPreferences customSharedPreferences;
     Context mContext;
 
     // RecyclerView recyclerView;
-    public FavouriteLocationsItemAdapter(List<FavouriteLocationPOJO> favouriteLocationPOJOList,Context mContext) {
+    public FavouriteLocationsItemAdapter(List<FavLocationResponsePoJo> favouriteLocationPOJOList,Context mContext) {
         this.favouriteLocationPOJOList = favouriteLocationPOJOList;
         this.mContext=mContext;
 
@@ -58,18 +61,23 @@ public class FavouriteLocationsItemAdapter extends RecyclerView.Adapter<Favourit
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final FavouriteLocationPOJO favouriteLocationPOJO = favouriteLocationPOJOList.get(position);
+        final FavLocationResponsePoJo favouriteLocationPOJO = favouriteLocationPOJOList.get(position);
+        final ArrayList<averagePriceDates> averagePriceDates=favouriteLocationPOJOList.get(position).getAveragePriceDates();
        // Log.e("DTAAA", myListData.getLocation_name());
        // notifyItemRemoved( position);
 
-        holder.tV_LocationName.setText(String.valueOf(favouriteLocationPOJO.getAveragePrice()));
-        holder.tV_avgPrice.setText(String.valueOf(favouriteLocationPOJO.getAveragePrice()));
+        holder.tV_LocationName.setText(String.valueOf(favouriteLocationPOJO.getLocation_name()));
+        Log.e("avg size" , String.valueOf(averagePriceDates.size()));
+
+        for(int i=0;i<averagePriceDates.size();i++) {
+            holder.tV_avgPrice.setText(String.valueOf(averagePriceDates.get(i).getAveragePrice()));
+            Log.e("avg Price" , String.valueOf(averagePriceDates.get(i).getAveragePrice()));
+        }
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), MapsActivity.class);
             Log.e("clicked","clike not moving");
-            intent.putExtra("postcode", String.valueOf(favouriteLocationPOJO.getPostcode()));
-            intent.putExtra("avgPrice", String.valueOf(favouriteLocationPOJO.getPostcode()));
+           intent.putExtra("id", String.valueOf(favouriteLocationPOJO.getId().toString()));
 
             v.getContext().startActivity(intent);
         });
@@ -80,7 +88,6 @@ public class FavouriteLocationsItemAdapter extends RecyclerView.Adapter<Favourit
             @Override
             public void onClick(View v) {
                // listener.onClick(v,favouriteLocationPOJO,position);
-                Log.e("favouriteLocationPOJO", favouriteLocationPOJO.getUserId());
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(v.getContext());
                 LayoutInflater inflater = ((Activity) v.getContext()).getLayoutInflater();
                 View alertView = inflater.inflate(R.layout.delete_data_dialog, null);
@@ -103,7 +110,7 @@ public class FavouriteLocationsItemAdapter extends RecyclerView.Adapter<Favourit
                     @Override
                     public void onClick(View v) {
                         if(ApiConstants.isInternetConnected(mContext)) {
-                            postData(favouriteLocationPOJO.getUserId(), position);
+                            postData(favouriteLocationPOJO.getId(), position);
                             updateData(position, favouriteLocationPOJOList);
                             // notifyItemRemoved( position);
                             notifyDataSetChanged();
@@ -122,7 +129,7 @@ public class FavouriteLocationsItemAdapter extends RecyclerView.Adapter<Favourit
         });
 
     }
-    public void updateData(int position, List<FavouriteLocationPOJO> updateFavouriteLocationList) {
+    public void updateData(int position, List<FavLocationResponsePoJo> updateFavouriteLocationList) {
         this.favouriteLocationPOJOList = updateFavouriteLocationList;
         notifyItemRemoved( position);
     }
@@ -189,6 +196,8 @@ public class FavouriteLocationsItemAdapter extends RecyclerView.Adapter<Favourit
                     favouriteLocationPOJOList.remove(favouriteLocationPOJOList.remove(position));
                     notifyDataSetChanged();
                 }
+
+                Log.e("response" , String.valueOf(response.body()));
 
                 if(response.code()!=200)
                 {

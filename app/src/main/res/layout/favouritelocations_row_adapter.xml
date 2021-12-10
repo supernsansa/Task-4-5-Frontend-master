@@ -47,12 +47,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:padding="5dp"
-                android:textColor="#fff"
+                android:textColor="#000"
                 android:id="@+id/tV_LocationPrice"
                android:layout_below="@+id/tV_locationName"
-                android:textSize="28sp"
+                android:textSize="20sp"
                 tools:ignore="MissingConstraints" />
 
 

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e4e4e4"
+    android:orientation="vertical"
+    tools:ignore="HardcodedText">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/view"
+        tools:ignore="MissingConstraints">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="128dp"
+        android:background="@drawable/custom_rectangle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+<!--    <ImageButton-->
+<!--        android:id="@+id/backB"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:background="?attr/selectableItemBackground"-->
+<!--        android:padding="8dp"-->
+<!--        android:src="@drawable/ic_back"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center_horizontal"
+        android:letterSpacing="0.025"
+        android:text="User Settings"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+
+        tools:ignore="MissingConstraints" />
+
+    </RelativeLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:id="@+id/lvParent"
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            android:layout_marginBottom="20dp"
+            android:gravity="center_vertical"
+
+
+
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+
+
+    <RelativeLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:padding="10dp"
+        android:layout_below="@+id/lvParent"
+        tools:ignore="NotSibling">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/showUserProfileCard"
+            android:layout_width="128dp"
+            android:layout_height="110dp"
+            android:layout_margin="8dp"
+            android:layout_marginEnd="16dp"
+            android:clickable="true"
+            android:elevation="12dp"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="8dp">
+
+
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Profile"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:layout_gravity="center"
+                />
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/showChangePasswordCard"
+            android:layout_width="128dp"
+            android:layout_height="110dp"
+            android:layout_margin="8dp"
+            android:clickable="true"
+            android:elevation="12dp"
+            android:focusable="true"
+            android:layout_toEndOf="@+id/showUserProfileCard"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="8dp"
+            tools:ignore="InvalidId">
+
+
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Change Password"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:gravity="center"
+
+                android:textSize="14sp"
+                />
+
+
+
+        </androidx.cardview.widget.CardView>
+
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:padding="10dp"
+        android:layout_below="@+id/linearLayout1"
+        tools:ignore="NotSibling">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvUserLogout"
+            android:layout_width="128dp"
+            android:layout_height="110dp"
+            android:layout_margin="8dp"
+            android:layout_marginEnd="16dp"
+            android:clickable="true"
+            android:elevation="12dp"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="8dp">
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Logout"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:layout_gravity="center"
+                />
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvDeleteUser"
+            android:layout_width="128dp"
+            android:layout_height="110dp"
+            android:layout_margin="8dp"
+            android:clickable="true"
+            android:elevation="12dp"
+
+            android:focusable="true"
+            android:layout_toEndOf="@+id/cvUserLogout"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="8dp"
+            tools:ignore="InvalidId">
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Delete Account"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:gravity="center"
+
+                android:textSize="14sp"
+                />
+
+
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

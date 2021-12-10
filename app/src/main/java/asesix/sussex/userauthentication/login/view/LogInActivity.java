@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 import asesix.sussex.R;
 import asesix.sussex.common.util.sharedprefernce.CustomSharedPreferences;
-import asesix.sussex.navigation.AppNavigation;
+import asesix.sussex.dashboard.DashboardActivity;
 import asesix.sussex.network.RetrofitAPI;
 import asesix.sussex.userauthentication.login.model.LoginPoJo;
 import asesix.sussex.userauthentication.registration.view.RegistrationActivity;
@@ -237,14 +237,16 @@ public class LogInActivity extends AppCompatActivity  {
                     customSharedPreferences.setIsLogin(true);
                     customSharedPreferences.setStringValue("email", response.body().getEmail());
                     customSharedPreferences.setStringValue("token", response.body().getToken());
-                    customSharedPreferences.setStringValue("userId", response.body().getUserID());
-                    Intent login = new Intent(LogInActivity.this, AppNavigation.class);
+                    Log.e("TOKEN" , customSharedPreferences.getStringValue("token"));
+
+                    customSharedPreferences.setStringValue("userId",response.body().getUserID().trim());
+                    Intent login = new Intent(LogInActivity.this, DashboardActivity.class);
                     startActivity(login);
 
                 }
                 else
                 {
-                    ApiConstants.showToast(LogInActivity.this,ApiConstants.serverError);
+                    ApiConstants.showToast(LogInActivity.this,response.message());
 
                 }
 

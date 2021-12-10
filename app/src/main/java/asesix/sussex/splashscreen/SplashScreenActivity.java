@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import asesix.sussex.R;
 import asesix.sussex.common.util.sharedprefernce.CustomSharedPreferences;
-import asesix.sussex.navigation.AppNavigation;
+import asesix.sussex.dashboard.DashboardActivity;
 import asesix.sussex.userauthentication.login.view.LogInActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
@@ -27,7 +27,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if(customSharedPreferences.isLogin()) {
-                    Intent intent=new Intent(SplashScreenActivity.this, AppNavigation.class);
+                    Intent intent=new Intent(SplashScreenActivity.this, DashboardActivity.class);
                     startActivity(intent);
                     finish();
                     SplashScreenActivity.this.finish();

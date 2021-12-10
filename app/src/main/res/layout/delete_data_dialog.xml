@@ -1,0 +1,64 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tV_delete"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="@string/delete_data_dialog"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    <Button
+        android:id="@+id/bt_delete_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+
+
+        android:background="@drawable/button_shape"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:text="Yes"
+
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="15sp"
+        android:layout_below="@+id/tV_delete"
+        tools:ignore="MissingConstraints" />
+
+
+    <Button
+        android:id="@+id/bt_cancel_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_shape"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+
+        android:text="No"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="15sp"
+      android:layout_toRightOf="@+id/bt_delete_location"
+        android:layout_below="@+id/tV_delete"
+        />
+
+
+</RelativeLayout>

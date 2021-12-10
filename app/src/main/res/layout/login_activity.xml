@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_centerHorizontal="true"
+    android:layout_height="match_parent">
+
+
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:fillViewport="true"
+        android:layout_height="fill_parent"
+        tools:ignore="MissingConstraints">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:padding="20dp"
+            android:gravity="center_vertical"
+            android:layout_height="wrap_content">
+
+
+
+            <TextView
+                android:text="@string/login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tV_Login"
+                android:textSize="20sp"
+                android:textColor="#000"
+                android:layout_centerHorizontal="true"
+                tools:ignore="MissingConstraints" />
+
+
+
+
+            <EditText
+                android:id="@+id/eT_EmailId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:autofillHints="ok"
+                android:background="@drawable/edittext_focused_style"
+                android:hint="@string/email"
+                android:padding="15dp"
+                android:layout_below="@+id/tV_Login"
+
+                android:textAlignment="textStart"
+                app:layout_constraintRight_toRightOf="parent"
+                tools:ignore="MissingConstraints"
+                />
+
+
+
+
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:id="@+id/rL_password"
+                android:layout_below="@+id/eT_EmailId"
+
+                android:layout_height="wrap_content">
+
+
+
+                <EditText
+                    android:id="@+id/eT_Password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:autofillHints="ok"
+                    android:background="@drawable/edittext_focused_style"
+                    android:hint="@string/password"
+                    android:padding="15dp"
+                    android:inputType="textPassword"
+
+                    android:textAlignment="textStart"
+                    app:layout_constraintRight_toRightOf="parent"
+                    tools:ignore="MissingConstraints"
+                    />
+
+
+                <ImageView
+                    android:id="@+id/iV_showPassword"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="5dp"
+                    android:alpha=".5"
+                    android:onClick="ShowHidePass"
+                    android:padding="7dp"
+                    android:src="@drawable/ic_hide"
+                    android:contentDescription="TODO" />
+            </RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+            <Button
+                android:id="@+id/bT_signIn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/button_shape"
+                android:text="@string/sign_in"
+                android:layout_below="@+id/rL_password"
+                android:padding="15dp"
+                android:textColor="#ffffff"
+                tools:ignore="MissingConstraints" />
+
+
+
+
+
+            <TextView
+                android:text="@string/new_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_NewUser"
+                android:textSize="20sp"
+                android:layout_margin="8dp"
+                android:layout_centerHorizontal="true"
+                android:textColor="#000"
+                android:layout_below="@+id/bT_signIn"
+
+                tools:ignore="MissingConstraints" />
+
+
+
+
+
+            <ProgressBar
+                android:id="@+id/idLoadingPB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_gravity="center_vertical"
+                android:layout_below="@+id/bT_Register"
+
+                tools:ignore="MissingConstraints" />
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
